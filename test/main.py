@@ -19,10 +19,22 @@ with open(json_file_path ,'r') as json_file:
 for item in csv_data:
     item_id = item['Pincode']
     item_district = item['District']
+    item_state = item['StateName']
 
     if item_id in json_data:
-        json_data[item_id]['city'] = item_district.capitalize()
-        json_data[item_id]['state'] = item['StateName'].capitalize()
+        district = item_district.split()
+        lower_words =[word.lower() for word in district]
+        capital_words =[word.capitalize() for word in lower_words]
+        res = " ".join(capital_words)
+            
+        state = item_state.split()
+        lower_s_word = [word.lower() for word in state]
+        cap_word = [word.capitalize() for word in lower_s_word]
+        
+        json_data[item_id]['city'] = res
+
+        
+        json_data[item_id]['state'] = item_state
 
 with open(json_file_path,'w') as json_file:
     json.dump(json_data,json_file,indent=2)
